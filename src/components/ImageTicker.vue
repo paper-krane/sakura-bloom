@@ -1,0 +1,190 @@
+<script setup>
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/all';
+import { ref, onMounted } from 'vue';
+
+// Ref's
+const galleryEl = ref(null);
+const gallerySection = ref(null);
+
+// On Component Mount
+onMounted(() => {
+    const gallery = gsap.to(galleryEl.value, {
+        duration: 60,
+        ease: "none",
+        x: `-100%`,
+        repeat: -1,
+    });
+
+    ScrollTrigger.create({
+        trigger: gallerySection.value,
+        onUpdate(self) {
+            const velocity = self.getVelocity();
+            if (velocity < 0) return;
+            const timeScale = 3 + (velocity / 100);
+            gsap.timeline()
+                .to(gallery, { duration: 0.25, timeScale })
+                .to(gallery, { duration: .5, timeScale: 1 });
+        }
+    });
+});
+</script>
+
+
+<template>
+    <section class="pk__image-ticker_section pk__section-margin-top pk__section-margin-bot" ref="gallerySection">
+        <div class="pk__container pk__image-ticker_header">
+            <h5>Follow us on Instagram</h5>
+            <a href="https://instagram.com/lovesakurabloom/" target="_blank">
+                @lovesakurabloom
+            </a>
+        </div>
+        <div class="pk__image-ticker_container" ref="galleryEl">
+            <div class="pk__image-ticker">
+                <div class="pk__image-ticker_item">
+                    <div class="pk__image-ticker_image">
+                        <figure>
+                            <img src="https://storageciggallery.addons.business/18193/cig-cozy-gallery-11474ro5-0622-Newport-Onbuhimos-6-hd.jpg?c=00" alt="Placeholder image" />
+                        </figure>
+                    </div>
+                </div>
+                <div class="pk__image-ticker_item large">
+                    <div class="pk__image-ticker_image">
+                        <figure>
+                            <img src="https://storageciggallery.addons.business/18193/cig-cozy-gallery-11474BdP-0622-Newport-Onbuhimos-15-hd.jpg?c=00" alt="Placeholder image" />
+                        </figure>
+                    </div>
+                </div>
+                <div class="pk__image-ticker_item">
+                    <div class="pk__image-ticker_image">
+                        <figure>
+                            <img src="https://storageciggallery.addons.business/18193/cig-cozy-gallery-11474fqv-0622-Newport-Onbuhimos-1-hd.jpg?c=00" alt="Placeholder image" />
+                        </figure>
+                    </div>
+                </div>
+                <div class="pk__image-ticker_item small">
+                    <div class="pk__image-ticker_image">
+                        <figure>
+                            <img src="https://storageciggallery.addons.business/18193/cig-cozy-gallery-11474nRD-0622-Newport-Onbuhimos-10-hd.jpg?c=00" alt="Placeholder image" />
+                        </figure>
+                    </div>
+                </div>
+                <div class="pk__image-ticker_item">
+                    <div class="pk__image-ticker_image">
+                        <figure>
+                            <img src="https://storageciggallery.addons.business/18193/cig-cozy-gallery-11474ro5-0622-Newport-Onbuhimos-6-hd.jpg?c=00" alt="Placeholder image" />
+                        </figure>
+                    </div>
+                </div>
+                <div class="pk__image-ticker_item large">
+                    <div class="pk__image-ticker_image">
+                        <figure>
+                            <img src="https://storageciggallery.addons.business/18193/cig-cozy-gallery-11474BdP-0622-Newport-Onbuhimos-15-hd.jpg?c=00" alt="Placeholder image" />
+                        </figure>
+                    </div>
+                </div>
+                <div class="pk__image-ticker_item">
+                    <div class="pk__image-ticker_image">
+                        <figure>
+                            <img src="https://storageciggallery.addons.business/18193/cig-cozy-gallery-11474fqv-0622-Newport-Onbuhimos-1-hd.jpg?c=00" alt="Placeholder image" />
+                        </figure>
+                    </div>
+                </div>
+                <div class="pk__image-ticker_item small">
+                    <div class="pk__image-ticker_image">
+                        <figure>
+                            <img src="https://storageciggallery.addons.business/18193/cig-cozy-gallery-11474nRD-0622-Newport-Onbuhimos-10-hd.jpg?c=00" alt="Placeholder image" />
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>
+
+
+<style lang="scss">
+@import "@/assets/_variables";
+
+.pk__image-ticker_section {
+    overflow: hidden;
+
+    .pk__image-ticker_header {
+        margin-bottom: 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        h5 {
+            margin-bottom: 0;
+        }
+
+        a, a:visited {
+            font-size: .825rem;
+            color: lighten($font-color, 40%);
+            font-style: italic;
+            text-decoration: none;
+        }
+    }
+
+    .pk__image-ticker_container {
+        position: relative;
+    }
+
+    .pk__image-ticker {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .pk__image-ticker_item {
+        width: 54vw;
+        padding: 0 20px;
+        flex-grow: 0;
+        flex-shrink: 0;
+        position: relative;
+
+        &.large {
+            width: 82vw;
+        }
+
+        &.small {
+            .pk__image-ticker_image {
+                aspect-ratio: 3 / 2;
+            }
+        }
+
+        .pk__image-ticker_image {
+            position: relative;
+            overflow: hidden;
+            border-radius: $border-radius;
+            aspect-ratio: 2 / 3;
+
+            figure {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    object-position: 50% 50%;
+                }
+            }
+        }
+    }
+
+    @media #{$l-and-up} {
+        .pk__image-ticker_item {
+            width: 23.33333333337vw;
+
+            &.large {
+                width: 30vw;
+            }
+        }
+    }
+}
+</style>
